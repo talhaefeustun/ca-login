@@ -1,7 +1,9 @@
 package interface_adapter.logout;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
+import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.logout.LogoutOutputData;
@@ -16,30 +18,25 @@ public class LogoutPresenter implements LogoutOutputBoundary {
     private LoginViewModel loginViewModel;
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
+                           LoggedInViewModel loggedInViewModel,
                            LoginViewModel loginViewModel) {
-        // TODO: assign to the three instance variables.
+        this.viewManagerModel = viewManagerModel;
+        this.loggedInViewModel = loggedInViewModel;
+        this.loginViewModel = loginViewModel;
     }
 
     @Override
     public void prepareSuccessView(LogoutOutputData response) {
-        // We need to switch to the login view, which should have
-        // an empty username and password.
 
-        // We also need to set the username in the LoggedInState to
-        // the empty string.
+        final LoggedInState loggedInState = loggedInViewModel.getState();
+        loggedInState.setUsername("");
+        loggedInViewModel.notifyStateChanged();
 
-        // TODO: have prepareSuccessView update the LoggedInState
-        // 1. get the LoggedInState out of the appropriate View Model,
-        // 2. set the username in the state to the empty string
-        // 3. notify so that the View that is listening is updated.
+        final LoginState loginState = loginViewModel.getState();
+        loginState.setUsername(response.getUsername());
+        loginState.setPassword("");
+        loginViewModel.notifyStateChanged();
 
-        // TODO: have prepareSuccessView update the LoginState
-        // 1. get the LoginState out of the appropriate View Model,
-        // 2. set the username in the state to be the username of the user that just logged out,
-        // 3. notify so that the View that is listening is updated.
-
-        // This code tells the View Manager to switch to the LoginView.
         this.viewManagerModel.setState(LoginViewModel.VIEW_NAME);
         this.viewManagerModel.notifyViewChanged();
     }
