@@ -127,6 +127,7 @@ public class LoggedInView extends JPanel implements ActionListener, LoggedInView
     public void stateChanged() {
         LoggedInState state = loggedInViewModel.getState();
         username.setText(state.getUsername());
+        passwordInputField.setText(state.getPassword());
     }
 
     /**

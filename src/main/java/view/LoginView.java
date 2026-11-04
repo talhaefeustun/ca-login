@@ -137,6 +137,7 @@ public class LoginView extends JPanel implements ActionListener, LoginViewModelL
 
     private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());
+        passwordInputField.setText(state.getPassword());
     }
 
     public void setLoginController(LoginController loginController) {
